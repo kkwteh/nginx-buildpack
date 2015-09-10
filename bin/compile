@@ -23,7 +23,7 @@ echo "-----> Installing nginx"
 make install --silent
 
 # Copy the installation where it'll persist
-mv nginx "$1/bin/nginx"
+mv nginx/sbin/nginx "$1/bin/nginx"
 cd -
 
 # Add to PATH
