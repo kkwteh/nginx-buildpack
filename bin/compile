@@ -3,8 +3,34 @@
 set -e
 
 mkdir -p "$1/bin/"
-cp "bin/nginx-$STACK" "$1/bin/nginx"
-nginx_version=$(./bin/nginx-$STACK -V 2>&1 | head -1 | awk '{ print $NF }')
+
+nginx_version=1.5.7
+
+nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
+
+build_dir=$1
+cache_dir=$2
+env_dir=$3
+
+status "Downloading $nginx_tarball_url"
+curl -L $nginx_tarball_url | tar xzv
+
+status "Compiling nginx"
+./configure \
+  --prefix=/app/nginx \
+  --with-http_ssl_module
+
+status "Installing nginx"
+make install --silent
+
+# Copy the installation where it'll persist
+mv /app/nginx "$1/bin/nginx"
+
+# Add to PATH
+mkdir -p $build_dir/.profile.d
+echo 'PATH=$PATH:$HOME/nginx/sbin' > $build_dir/.profile.d/nginx_path.sh
+
+nginx_version=1.5.7
 echo "-----> nginx-buildpack: Installed ${nginx_version} to app/bin"
 cp bin/start-nginx "$1/bin/"
 echo '-----> nginx-buildpack: Added start-nginx to app/bin'
