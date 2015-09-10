@@ -4,7 +4,7 @@ set -e
 
 mkdir -p "$1/bin/"
 
-nginx_version=1.5.7
+nginx_version=1.9.4
 
 nginx_tarball_url=http://nginx.org/download/nginx-${nginx_version}.tar.gz
 
