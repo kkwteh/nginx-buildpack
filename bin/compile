@@ -12,15 +12,15 @@ build_dir=$1
 cache_dir=$2
 env_dir=$3
 
-status "Downloading $nginx_tarball_url"
+echo "-----> Downloading $nginx_tarball_url"
 curl -L $nginx_tarball_url | tar xzv
 
-status "Compiling nginx"
+echo "-----> Compiling nginx"
 ./configure \
   --prefix=/app/nginx \
   --with-http_ssl_module
 
-status "Installing nginx"
+echo "-----> Installing nginx"
 make install --silent
 
 # Copy the installation where it'll persist
