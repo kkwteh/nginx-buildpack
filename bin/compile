@@ -16,15 +16,15 @@ echo "-----> Downloading $nginx_tarball_url"
 curl -L $nginx_tarball_url | tar xzv
 
 echo "-----> Compiling nginx"
-./configure \
-  --prefix=/app/nginx \
-  --with-http_ssl_module
+cd nginx-${nginx_version}
+./configure --prefix=./nginx --with-http_ssl_module
 
 echo "-----> Installing nginx"
 make install --silent
 
 # Copy the installation where it'll persist
-mv /app/nginx "$1/bin/nginx"
+mv nginx "$1/bin/nginx"
+cd -
 
 # Add to PATH
 mkdir -p $build_dir/.profile.d
