@@ -7,20 +7,25 @@ mkdir -p "$1/bin/"
 nginx_version=1.9.4
 
 nginx_tarball_url=http://nginx.org/download/nginx-${nginx_version}.tar.gz
+http_headers_more_url=https://codeload.github.com/openresty/headers-more-nginx-module/tar.gz/v0.261
 
 build_dir=$1
 cache_dir=$2
 env_dir=$3
+
+echo "-----> Downloading $http_headers_more_url"
+curl $http_headers_more_url | tar xzv
 
 echo "-----> Downloading $nginx_tarball_url"
 curl -L $nginx_tarball_url | tar xzv
 
 echo "-----> Compiling nginx"
 cd nginx-${nginx_version}
-./configure --prefix=./nginx --with-http_ssl_module
+./configure --prefix=./nginx --with-http_ssl_module --add-module=../headers-more-nginx-module-0.261/
 
 echo "-----> Installing nginx"
-make install --silent
+make
+make install
 
 # Copy the installation where it'll persist
 mv nginx/sbin/nginx "$1/bin/nginx"
