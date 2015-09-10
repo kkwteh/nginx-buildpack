@@ -6,7 +6,7 @@ mkdir -p "$1/bin/"
 
 nginx_version=1.5.7
 
-nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
+nginx_tarball_url=http://nginx.org/download/nginx-${nginx_version}.tar.gz
 
 build_dir=$1
 cache_dir=$2
